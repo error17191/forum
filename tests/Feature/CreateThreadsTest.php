@@ -34,4 +34,11 @@ class CreateThreadsTest extends TestCase
             ->assertSee($thread->body);
 
     }
+
+    function test_guests_can_not_see_create_thread_page()
+    {
+        $this->withExceptionHandling()
+            ->get('threads/create')
+            ->assertRedirect('/login');
+    }
 }
