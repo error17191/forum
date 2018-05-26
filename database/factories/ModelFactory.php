@@ -4,6 +4,8 @@ use Faker\Generator as Faker;
 use App\User;
 use App\Thread;
 use App\Reply;
+use App\Channel;
+
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -30,6 +32,9 @@ $factory->define(Thread::class, function (Faker $faker) {
         'user_id' => function () {
             return factory(User::class)->create()->id;
         },
+        'channel_id' => function () {
+            return factory(Channel::class)->create()->id;
+        },
         'title' => $faker->sentence,
         'body' => $faker->paragraph
     ];
@@ -45,6 +50,15 @@ $factory->define(Reply::class, function (Faker $faker) {
             return factory(Thread::class)->create()->id;
         },
         'body' => $faker->paragraph
+    ];
+});
+
+
+$factory->define(Channel::class, function (Faker $faker) {
+    $name = $faker->word;
+    return [
+        'name' => $name,
+        'slug' => $name
     ];
 });
 

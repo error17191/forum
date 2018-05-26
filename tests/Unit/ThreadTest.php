@@ -7,8 +7,7 @@ use App\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Channel;
 
 class ThreadTest extends TestCase
 {
@@ -42,6 +41,21 @@ class ThreadTest extends TestCase
             'user_id' => 1
         ]);
 
-        $this->assertCount(1,$this->thread->replies);
+        $this->assertCount(1, $this->thread->replies);
+    }
+
+    public function test_a_thread_belongs_to_a_channel()
+    {
+        $thread = create(Thread::class);
+
+        $this->assertInstanceOf(Channel::class, $thread->channel);
+
+    }
+
+    public function test_a_thread_can_generate_its_path()
+    {
+        $thread = create(Thread::class);
+
+        $this->assertEquals("/threads/{$thread->channel->slug}/{$thread->id}" ,$thread->path());
     }
 }
